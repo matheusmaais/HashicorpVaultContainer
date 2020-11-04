@@ -1,0 +1,19 @@
+version: '3'
+services:
+  vault:
+    image: vault
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_ADDR=http://0.0.0.0:8200
+    restart: always
+    volumes:
+      - ./logs:/vault/logs
+      - ./file:/vault/file
+      - ./config:/vault/config
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.hcl
+    #command: sh /vault/config/unseal.sh
+    #creat /vault/* if not exist
